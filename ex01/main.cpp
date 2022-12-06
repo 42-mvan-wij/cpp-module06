@@ -1,11 +1,12 @@
 #include <iostream>
 #include <cmath>
 #include <sstream>
+#include <cstdlib>
+#include <cassert>
 
-__attribute__((destructor))
 void check_leaks() {
 	std::cout << std::endl;
-	system("leaks -q serialize");
+	std::system("leaks -q serialize");
 }
 
 struct Data {
@@ -22,6 +23,8 @@ Data *deserialize(uintptr_t raw) {
 }
 
 int main() {
+	std::atexit(&check_leaks);
+
 	Data data;
 	data.content = "Hello";
 	data.value = 42;

@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 13:16:39 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/06/15 17:39:08 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/22 16:26:33 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIBFT		:=
 MINILIBX	:=
 
 CC			:= c++
-CFLAGS		+= -Wall -Wextra -Werror -std=c++98 $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsanitize=address -g3)
+CFLAGS		+= -Wall -Wextra -Werror -std=c++98 -pedantic $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsanitize=address -g3)
 
 ################################################################################
 
@@ -74,6 +74,7 @@ $(NAME): $(USER_LIBS) $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIB_FLAGS) -o $(NAME)
 	@$(call print_prefix,"$(PROJECT)","make")
 	@printf "$(BLUE_FG)$(NAME)$(RESET_COLOR) created\n"
+	@echo $(MAKE_DATA) > $(DATA_FILE)
 
 
 $(OBJDIR)/%.o: %.cpp $(HEADERS)

@@ -1,12 +1,12 @@
 #include <iostream>
+#include <cstdlib>
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
 
-__attribute__((destructor))
 void check_leaks() {
 	std::cout << std::endl;
-	system("leaks -q real-type");
+	std::system("leaks -q real-type");
 }
 
 Base * generate() {
@@ -15,7 +15,7 @@ Base * generate() {
 		std::cout << "Generated A" << std::endl;
 		return new A();
 	}
-	else if (rnd == 1) {
+	if (rnd == 1) {
 		std::cout << "Generated B" << std::endl;
 		return new B();
 	}
@@ -64,6 +64,8 @@ void identify(Base& p) {
 }
 
 int main() {
+	std::atexit(&check_leaks);
+
 	srand(time(NULL));
 
 	for (int i = 0; i < 5; i++) {
