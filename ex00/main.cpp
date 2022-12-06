@@ -1,21 +1,11 @@
 #include <iostream>
 #include <cmath>
 #include <sstream>
+#include <cstdlib>
 
-__attribute__((destructor))
 void check_leaks() {
 	std::cout << std::endl;
-	system("leaks -q convert");
-}
-
-std::string trim(std::string str) {
-	std::string::size_type pos = str.find_first_not_of(" \t\n\r\f\v");
-	if (pos != std::string::npos)
-		str = str.substr(pos);
-	pos = str.find_last_not_of(" \t\n\r\f\v");
-	if (pos != std::string::npos)
-		str = str.substr(0, pos + 1);
-	return str;
+	std::system("leaks -q convert");
 }
 
 bool as_char(std::string input, char &result) {
@@ -106,12 +96,13 @@ void print(T input) {
 }
 
 int main(int argc, char *argv[]) {
+	std::atexit(&check_leaks);
+
 	if (argc != 2) {
 		std::cerr << "Expected 1 argument, got: " << argc - 1 << " instead" << std::endl;
 		return (1);
 	}
 	std::string input(argv[1]);
-	input = trim(input);
 
 	char c;
 	int i;
